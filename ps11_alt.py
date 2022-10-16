@@ -23,12 +23,14 @@ omega_lab = []
 L = []
 L_lab = []
 while t<t_end:
-    R = np.array([[np.cos(phi)*np.cos(psi) - np.cos(theta)*np.sin(phi)*np.sin(psi), np.sin(phi)*np.cos(psi) + np.cos(theta)*np.cos(phi)*np.sin(psi), np.sin(theta)*np.sin(psi)], [-1*np.cos(phi)*np.sin(psi) - np.cos(theta)*np.sin(phi)*np.cos(psi), -1*np.sin(phi)*np.sin(psi) + np.cos(theta)*np.cos(phi)*np.cos(psi), np.sin(theta)*np.cos(psi)], [np.sin(theta)*np.sin(phi), -1*np.sin(theta)*np.cos(phi), np.cos(theta)]])
+    R = np.array([[np.cos(phi)*np.cos(psi) - np.cos(theta)*np.sin(phi)*np.sin(psi), np.sin(phi)*np.cos(psi) + np.cos(theta)*np.cos(phi)*np.sin(psi), np.sin(theta)*np.sin(psi)], 
+                [-1*np.cos(phi)*np.sin(psi) - np.cos(theta)*np.sin(phi)*np.cos(psi), -1*np.sin(phi)*np.sin(psi) + np.cos(theta)*np.cos(phi)*np.cos(psi), np.sin(theta)*np.cos(psi)], 
+                [np.sin(theta)*np.sin(phi), -1*np.sin(theta)*np.cos(phi), np.cos(theta)]])
     o_body = np.array([phi_dot*np.sin(theta)*np.sin(psi) +  theta_dot*np.cos(psi), phi_dot*np.sin(theta)*np.cos(psi) -  theta_dot*np.sin(psi), phi_dot*np.cos(psi) + psi_dot])
-    o_lab = np.dot(R, o_body)
+    o_lab = np.dot(np.transpose(R), o_body)
     #o_lab = np.array([psi_dot*np.sin(theta)*np.sin(phi) +  theta_dot*np.cos(phi), -1*psi_dot*np.sin(theta)*np.cos(phi) +  theta_dot*np.sin(phi), psi_dot*np.cos(phi) + phi_dot])
     L_bt = np.dot(np.array([[I1, 0, 0], [0, I1, 0], [0, 0, I3]]), o_body)
-    L_lt = np.dot(R, L_bt)
+    L_lt = np.dot(np.transpose(R), L_bt)
     L.append(L_bt)
     L_lab.append(L_lt)
     omega_body.append(o_body)
