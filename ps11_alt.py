@@ -40,9 +40,6 @@ while t<t_end:
 
 omega_lab_np = np.array(omega_lab)
 omega_body_np = np.array(omega_body)
-e3_np = np.array(e3p)
-e1_np = np.array(e1p)
-e2_np = np.array(e2p)
 L_np = np.array(L)
 L_lab_np = np.array(L_lab)
 
