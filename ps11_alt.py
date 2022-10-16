@@ -20,9 +20,6 @@ dt=0.2
 
 omega_body = []
 omega_lab = []
-e1p = []
-e2p = []
-e3p = []
 L = []
 L_lab = []
 while t<t_end:
