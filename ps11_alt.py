@@ -3,12 +3,12 @@ import matplotlib.pyplot as plt
 import matplotlib.animation as anim
 
 phi = 0
-theta = np.pi/6
+theta = -np.pi/8
 psi = 0
 
-phi_dot = 0.0
+phi_dot = 0.9
 theta_dot = 0.0
-psi_dot = 0.8
+psi_dot = 0.3
 
 I1 = 2.0
 I3 = 3.0
@@ -25,13 +25,19 @@ L_lab = []
 e1pa_i = []
 e2pa_i = []
 e3pa_i = []
+
 while t<t_end:
     R = np.array([[np.cos(phi)*np.cos(psi) - np.cos(theta)*np.sin(phi)*np.sin(psi), np.sin(phi)*np.cos(psi) + np.cos(theta)*np.cos(phi)*np.sin(psi), np.sin(theta)*np.sin(psi)], 
                 [-1*np.cos(phi)*np.sin(psi) - np.cos(theta)*np.sin(phi)*np.cos(psi), -1*np.sin(phi)*np.sin(psi) + np.cos(theta)*np.cos(phi)*np.cos(psi), np.sin(theta)*np.cos(psi)], 
                 [np.sin(theta)*np.sin(phi), -1*np.sin(theta)*np.cos(phi), np.cos(theta)]])
+    e1p = np.dot(np.transpose(R), np.array([1,0,0]))
+    e2p = np.dot(np.transpose(R), np.array([0,1,0]))
+    e3p = np.dot(np.transpose(R), np.array([0,0,1]))
+    '''
     e1p = np.dot(R, np.array([1,0,0]))
     e2p = np.dot(R, np.array([0,1,0]))
     e3p = np.dot(R, np.array([0,0,1]))
+    '''
     e1pa_i.append(e1p)
     e2pa_i.append(e2p)
     e3pa_i.append(e3p)
@@ -58,6 +64,8 @@ e1pa = np.array(e1pa_i)
 e2pa = np.array(e2pa_i)
 e3pa = np.array(e3pa_i)
 
+print(L[0])
+print(L_lab[0])
 print(np.linalg.norm(L[0]))
 print(np.linalg.norm(L_lab[0]))
 print(np.linalg.norm(omega_body[0]))
@@ -69,19 +77,28 @@ lims = [-2, 2]
 ax.set_xlim(lims)
 ax.set_ylim(lims)
 ax.set_zlim(lims)
+ax.set_xlabel('x')
+ax.set_ylabel('y')
+ax.set_zlabel('z')
 
 def update_func(i):
     ax.cla()
     ax.set_xlim(lims)
     ax.set_ylim(lims)
     ax.set_zlim(lims)
-    plt.quiver(0, 0, 0, omega_lab_np[i, 0], omega_lab_np[i, 1], omega_lab_np[i, 2])
-    plt.quiver(0, 0, 0, L_lab_np[i, 0], L_lab_np[i, 1], L_lab_np[i, 2], color='black')
-    plt.quiver(0, 0, 0, omega_body_np[i, 0], omega_body_np[i, 1], omega_body_np[i, 2], color='g')
-    plt.quiver(0, 0, 0, L_np[i, 0], L_np[i, 1], L_np[i, 2], color='r')
-    plt.quiver(0, 0, 0, e1pa[i, 0], e1pa[i, 1], e1pa[i, 2], color='y')
-    plt.quiver(0, 0, 0, e2pa[i, 0], e2pa[i, 1], e2pa[i, 2], color='y')
-    plt.quiver(0, 0, 0, e3pa[i, 0], e3pa[i, 1], e3pa[i, 2], color='y')
+    ax.set_xlabel('x')
+    ax.set_ylabel('y')
+    ax.set_zlabel('z')
+    #plt.quiver(0, 0, 0, omega_lab_np[i, 0], omega_lab_np[i, 1], omega_lab_np[i, 2])
+    #plt.quiver(0, 0, 0, L_lab_np[i, 0], L_lab_np[i, 1], L_lab_np[i, 2], color='black')
+    plt.quiver(0, 0, 0, omega_body_np[i, 0], omega_body_np[i, 1], omega_body_np[i, 2], color='c')
+    plt.quiver(0, 0, 0, L_np[i, 0], L_np[i, 1], L_np[i, 2], color='y')
+    plt.quiver(0, 0, 0, e1pa[i, 0], e1pa[i, 1], e1pa[i, 2], color='r')
+    plt.quiver(0, 0, 0, e2pa[i, 0], e2pa[i, 1], e2pa[i, 2], color='g')
+    plt.quiver(0, 0, 0, e3pa[i, 0], e3pa[i, 1], e3pa[i, 2], color='b')
+    plt.quiver(0, 0, 0, 10, 0, 0, color = 'black')
+    plt.quiver(0, 0, 0, 0, 10, 0, color = 'black')
+    plt.quiver(0, 0, 0, 0, 0, 10, color = 'black')
 
 animation = anim.FuncAnimation(fig, func=update_func)
 animation.save("w_alt.gif", dpi=300, fps=10)
