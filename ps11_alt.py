@@ -19,9 +19,7 @@ t_end = 20
 dt=0.2
 
 omega_body = []
-omega_lab = []
 L = []
-L_lab = []
 e1pa_i = []
 e2pa_i = []
 e3pa_i = []
@@ -46,32 +44,24 @@ while t<t_end:
     e3pa_i.append(e3p)
     #o_body = np.array([phi_dot*np.sin(theta)*np.sin(psi) +  theta_dot*np.cos(psi), phi_dot*np.sin(theta)*np.cos(psi) -  theta_dot*np.sin(psi), phi_dot*np.cos(theta) + psi_dot])
     o_body = (phi_dot*np.sin(theta)*np.sin(psi) +  theta_dot*np.cos(psi))*e1p + (phi_dot*np.sin(theta)*np.cos(psi) -  theta_dot*np.sin(psi))*e2p + (phi_dot*np.cos(theta) + psi_dot)*e3p
-    o_lab = np.dot(np.transpose(R), o_body)
     #o_lab = np.array([psi_dot*np.sin(theta)*np.sin(phi) +  theta_dot*np.cos(phi), -1*psi_dot*np.sin(theta)*np.cos(phi) +  theta_dot*np.sin(phi), psi_dot*np.cos(phi) + phi_dot])
     L_bt = np.dot(np.array([[I1, 0, 0], [0, I1, 0], [0, 0, I3]]), o_body)
-    L_lt = np.dot(np.transpose(R), L_bt)
     L.append(L_bt)
-    L_lab.append(L_lt)
     omega_body.append(o_body)
-    omega_lab.append(o_lab)
     CoM.append(CoM_new)
     phi += phi_dot*dt
     theta += theta_dot*dt
     psi += psi_dot*dt
     t += dt
 
-omega_lab_np = np.array(omega_lab)
 omega_body_np = np.array(omega_body)
 L_np = np.array(L)
-L_lab_np = np.array(L_lab)
 e1pa = np.array(e1pa_i)
 e2pa = np.array(e2pa_i)
 e3pa = np.array(e3pa_i)
 
 print(L[0])
-print(L_lab[0])
 print(omega_body[0])
-print(omega_lab[2])
 
 fig = plt.figure()
 ax = plt.axes(projection='3d')
@@ -91,8 +81,6 @@ def update_func(i):
     ax.set_xlabel('x')
     ax.set_ylabel('y')
     ax.set_zlabel('z')
-    #plt.quiver(0, 0, 0, omega_lab_np[i, 0], omega_lab_np[i, 1], omega_lab_np[i, 2])
-    #plt.quiver(0, 0, 0, L_lab_np[i, 0], L_lab_np[i, 1], L_lab_np[i, 2], color='black')
     plt.quiver(*CoM[i], omega_body_np[i, 0], omega_body_np[i, 1], omega_body_np[i, 2], color='c')
     plt.quiver(*CoM[i], L_np[i, 0], L_np[i, 1], L_np[i, 2], color='y')
     plt.quiver(*CoM[i], e1pa[i, 0], e1pa[i, 1], e1pa[i, 2], color='r')
