@@ -6,9 +6,9 @@ phi = np.pi/2
 theta = np.pi/4
 psi = 0
 
-phi_dot = 0.5
+phi_dot = 1.0
 theta_dot = 0.0
-psi_dot = 5.0
+psi_dot = 0.1
 
 I1 = 2.0
 I3 = 3.0
@@ -26,13 +26,13 @@ e1pa_i = []
 e2pa_i = []
 e3pa_i = []
 
-L_o = 0.0
+L_o = np.array([0.0, 0.0, 5.0])
 CoM = []
 while t<t_end:
-    CoM_new = np.array([L_o*np.sin(theta)*np.cos(phi), L_o*np.sin(theta)*np.sin(phi), L_o*np.cos(theta)])
     R = np.array([[np.cos(phi)*np.cos(psi) - np.cos(theta)*np.sin(phi)*np.sin(psi), np.sin(phi)*np.cos(psi) + np.cos(theta)*np.cos(phi)*np.sin(psi), np.sin(theta)*np.sin(psi)], 
                 [-1*np.cos(phi)*np.sin(psi) - np.cos(theta)*np.sin(phi)*np.cos(psi), -1*np.sin(phi)*np.sin(psi) + np.cos(theta)*np.cos(phi)*np.cos(psi), np.sin(theta)*np.cos(psi)], 
                 [np.sin(theta)*np.sin(phi), -1*np.sin(theta)*np.cos(phi), np.cos(theta)]])
+    CoM_new = np.dot(np.transpose(R), L_o)
     e1p = np.dot(np.transpose(R), np.array([1,0,0]))
     e2p = np.dot(np.transpose(R), np.array([0,1,0]))
     e3p = np.dot(np.transpose(R), np.array([0,0,1]))
@@ -75,7 +75,7 @@ print(omega_lab[2])
 
 fig = plt.figure()
 ax = plt.axes(projection='3d')
-lims = [-2, 2]
+lims = [-5, 5]
 ax.set_xlim(lims)
 ax.set_ylim(lims)
 ax.set_zlim(lims)
